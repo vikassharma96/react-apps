@@ -1,0 +1,77 @@
+JavaScipt basics - 
+1.Previously javaScipt was only used in browser to build interactive web pages.
+2.Now we can develop full blown web or mobile apps, real time networking apps, command line tools and games.
+3.JavaScipt was originally designed to run only in browser. Browser has (JavaScipt Engine) that can execute javaScipt code.
+4.node is a c++ program that includes google's v8 javaScipt engine now with this we can run javaScipt code
+outside of a browser so we can pass our javaScipt code to node for execution applications so in
+a nutshell javaScipt build the backend for our web and mobile applications so in a nutshell javaScipt
+can be run inside of a browser or in node. browser and node provide a runtime environment for our
+javaScipt code.
+5.To run javaScipt code here we need script element. 2 places to add script we can add in head section
+or in the body section. best practice to put script at the end of body section. the reason is browser
+parses the file from top to bottom so if we put javaScipt code on head section browser get busy parsing 
+and executing them and second reason is at bottom most script need to talk to element so we sure the
+all elements rendered.
+6.separation of concern - we want to separate HTML which is all about content and JavaScipt which is
+all about behaviour.
+7.we can execute javaScipt code like node index.js.
+8.varibles - good practice to use let instead of var by default varibles values are undefined.
+variables are case sensitive let name and let Name are different, name cannot contain hyphen(-)
+9.Primitive types - String, Number, Boolean, Undefined, Null and  Reference types - Object, Array, Functions.
+10.statically typed lang and dynamically typed language
+string name = 'vikas'; type of variable not changed - statically typed
+let name = 'vikas'; name = 1; type of variable changed - dynamically typed
+we don't have two types of number like float, int we only hav number
+11.To create object we have factory functions and constructor functions
+
+React basics - 
+It has jsx javaScipt xml
+babel will take jsx code and convert to plain javascript code that browser can understand
+eg - const element = <h1>Hello</hi>  babel convert to -> var element = React.createElement('h1', null, 'Hello');
+Virtual DOM lightweight in memory representation of UI 
+Real DOM or Browser DOM
+if we change something it compare old virtual dom to new and only make changes to which
+element is modified
+every react component have values called props it basically a plain javaScipt object
+this includes all the attributes that we set in components
+props - data that we give to component or input to the component we cannot change 
+value of props eg. this.props.value = 0 - throws error readonly value
+state - includes data that is private to that component so other component cannot 
+access that state it's completely internal to the component
+The component that owns a piece of the state, should be the one modyifying it.
+raising and handling event
+single source of truth -
+controlled component does not have it owns state it receive data via props and raises
+events whenever data needs to changed. it controlled by it's parent
+lifecycle hooks - 
+1.Mounting phase - when instance of component is created and inserted into DOM it has
+three lifecycle hooks 1.constructor 2.render 3.componentDidMount
+2.Update phase - we have two lifecycle hooks 1.render 2.componentDidUpdate
+3.UnMount phase - It has 1.componentWillUnmount
+lifecycle hooks not used in functional component
+
+Redux - 
+A state management library for javaScipt applications we can use it with react, angular, vue
+In redux instead of scattering applications state in various parts of ui we store all the applications
+state inside a central repository that is single javaScipt object called store that is single source of truth
+we can think it as some kind of database for the frontend different pieces of ui no longer
+maintained their own state instead get from store.
+1.Redux centralizes applications state
+2.Make data flow transparent and predictable
+Building block - Action, Store, Reducer
+function reducer(store, action){
+    const newStore = {...store};
+    // newStore.user.name = 'vikas'
+}
+action is event and reducer is event handler
+
+action (dispatch) -> store -> reducer
+                           <-
+Steps - 
+1.Design the store
+2.Define the action
+3.Create a reducer
+4.Setup the store
+
+create react app installs for us 
+1.light weight development server 2.webpack for bundling files 3.babel for compiling javaScipt course
