@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// controlled component
 class Counter extends Component {
   componentDidUpdate(prevProps, prevState) {
     console.log("Counter - componentDidUpdate");
@@ -43,7 +44,7 @@ class Counter extends Component {
           Increment
         </button>
         <button
-          onClick={() => this.props.onDelete(this.props.counter.id)}
+          onClick={() => this.props.onDelete(this.props.counter.id)} // raising an event
           className="btn btn-danger btn-sm m-2"
         >
           Delete

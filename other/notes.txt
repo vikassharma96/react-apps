@@ -24,7 +24,28 @@ let name = 'vikas'; name = 1; type of variable changed - dynamically typed
 we don't have two types of number like float, int we only hav number
 11.To create object we have factory functions and constructor functions
 
+this in javaScipt behaves differently depending on how function is called this referred
+to different object
+1.if it called as a part of method in object - obj.method() this in this func return object
+2.if this called as standalone function without obj reference - this referred to window object
+and if the strictmode enabled it return undefined
+
 React basics - 
+
+React is a javascript library for building user interfaces
+React application has component which is a piece of UI(user interface)
+Every react app has at least one component which referred to as root component
+
+Component is typical implemented as a javascript class which has some state and render method
+Class Tweet {
+ 	State={};
+	render(){
+	   // describe UI
+	}
+}
+Render method is a React Element which is simple js object which maps to DOM Element
+React keeps light weight representation of DOM in memory called Virtual DOM
+
 It has jsx javaScipt xml
 babel will take jsx code and convert to plain javascript code that browser can understand
 eg - const element = <h1>Hello</hi>  babel convert to -> var element = React.createElement('h1', null, 'Hello');
@@ -49,6 +70,17 @@ three lifecycle hooks 1.constructor 2.render 3.componentDidMount
 2.Update phase - we have two lifecycle hooks 1.render 2.componentDidUpdate
 3.UnMount phase - It has 1.componentWillUnmount
 lifecycle hooks not used in functional component
+
+Objects
+const persone = {
+	name : 'vikas',
+	sayHello : function() {
+		console.log(name)
+	}
+	sayHello() { // now with ES6 we can define function like this
+		console.log(name)
+	}
+}
 
 Redux - 
 A state management library for javaScipt applications we can use it with react, angular, vue

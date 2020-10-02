@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-// functional component
+// stateless functional component
 const NavBar = ({ totalCount }, props) => {
   return (
     <nav className="navbar navbar-light bg-light">
