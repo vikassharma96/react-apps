@@ -1,74 +1,87 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import NavBar from "./components/navbar";
-import Counters from "./components/counters";
+import Carousel from "react-bootstrap/Carousel";
 
 class App extends Component {
   state = {
-    counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 },
-    ],
+    selectedIndex: 0,
   };
 
-  constructor(props) {
-    super(props);
-    console.log("App - constructor");
-  }
-
-  componentDidMount() {
-    // Ajax call then setState with new data
-    console.log("App - mounted");
-  }
-
-  handleIncrement = (counter) => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index] = { ...counter };
-    counters[index].value++;
-    console.log(this.state.counters[index]);
+  handleSelect = (index) => {
     this.setState({
-      counters,
-    });
-  };
-
-  handleReset = () => {
-    const counter = this.state.counters.map((c) => {
-      c.value = 0;
-      return c;
-    });
-    this.setState({
-      counter,
-    });
-  };
-
-  handleDelete = (counterId) => {
-    console.log("Event Handler Called", counterId);
-    const counters = this.state.counters.filter(
-      (counter) => counter.id !== counterId
-    );
-    this.setState({
-      counters,
+      selectedIndex: index,
     });
   };
 
   render() {
-    console.log("App - render");
     return (
       <React.Fragment>
-        <NavBar
-          totalCount={this.state.counters.filter((c) => c.value > 0).length}
-        />
-        <main className="containter">
-          <Counters
-            counters={this.state.counters}
-            onReset={this.handleReset}
-            onIncrement={this.handleIncrement}
-            onDelete={this.handleDelete}
-          />
+        <h4
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "20",
+          }}
+        >
+          React Apps Collection!
+        </h4>
+        <main
+          className="container"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "90vh",
+          }}
+        >
+          <Carousel
+            activeIndex={this.state.selectedIndex}
+            onSelect={this.handleSelect}
+          >
+            <Carousel.Item>
+              <img
+                className="d-block w-200"
+                src="https://picsum.photos/800/400"
+                alt="First slide"
+                style={{ maxWidth: "100%", height: "600px" }}
+              />
+              <Carousel.Caption>
+                <h3>First slide label</h3>
+                <p>
+                  Nulla vitae elit libero, a pharetra augue mollis interdum.
+                </p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-200"
+                src="https://picsum.photos/800/400"
+                alt="Second slide"
+                style={{ maxWidth: "100%", height: "600px" }}
+              />
+
+              <Carousel.Caption>
+                <h3>Second slide label</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-200"
+                src="https://picsum.photos/800/400"
+                alt="Third slide"
+                style={{ maxWidth: "100%", height: "600px" }}
+              />
+
+              <Carousel.Caption>
+                <h3>Third slide label</h3>
+                <p>
+                  Praesent commodo cursus magna, vel scelerisque nisl
+                  consectetur.
+                </p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
         </main>
       </React.Fragment>
     );
