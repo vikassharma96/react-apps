@@ -2,7 +2,7 @@ import store from "./store";
 import { bugAdded, bugResolved } from "./actions";
 
 store.subscribe(() => {
-	console.log("Store changed!", store.getState());
+  console.log("Store changed!", store.getState());
 });
 
 store.dispatch(bugAdded("Bug 1"));

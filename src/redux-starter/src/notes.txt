@@ -1,0 +1,25 @@
+redux is build on top of functional programming principle so we can't directly modify
+or mutate the store.
+store is an immutable object so to update it we create a function which takes store as
+an argument and return the updated store that function is called reducer
+
+function reducer(store){
+    // return updated store here we can use spread operator or immutable libraries to copy
+}
+
+so to know the reducer what property we need to update on our store we have actions
+
+function reducer(store, actions){
+    const updated = {..store};
+    updated.products = ???
+}
+
+Redux has 3 building blocks - 
+Action(event) [dispatch] -> Store -> Reducer(event handler)
+                                  <-
+
+Steps - 
+1.Design the store
+2.Define the actions
+3.Create a reducer
+4.Set up the store
