@@ -1,5 +1,7 @@
 // hoisting - we can access varibales and function even before initializing
-// Execution context Gloabl this
+// Execution context Globle this
+// To avoid hoisting, we can run javascript in strict mode by using “use strict” on top
+// of the code
 console.log(x);
 console.log(demo);
 console.log(getAge);
@@ -26,6 +28,8 @@ abcd();
 console.log(a2);
 console.log(b);
 
+// There are three types of scopes in JS:
+// 1.Global Scope 2. Local or Function Scope 3.Block Scope
 // Block scope
 var name = {
   name: "vikas",
@@ -82,6 +86,14 @@ const argument = () => {
 };
 main(argument);
 
+// call() method allows an object to use the method (function) of another object.
+function sayHello() {
+  return "Hello " + this.name;
+}
+var obj = { name: "Vikas" };
+
+sayHello.call(obj);
+
 let MyName = {
   firstName: "Vikas",
   lastName: "Sharma",
@@ -91,8 +103,8 @@ let MyName = {
   },
 };
 
-let getFullName2 = function (pockemon) {
-  console.log(this.firstName + " " + this.lastName + " " + pockemon);
+let getFullName2 = function (pokemon) {
+  console.log(this.firstName + " " + this.lastName + " " + pokemon);
 };
 
 getFullName2.call(MyName, "pikachu");
@@ -115,7 +127,9 @@ MyName.getFullName.apply(MyName2, ["doremon", "nobita"]);
 var printMyName = getFullName2.bind(MyName2, "nobita");
 printMyName();
 
-// currying in js
+// Currying in js
+// Currying is an advanced technique to transform a function of arguments n, to n functions of one or less arguments.
+// For Example, if we have a function f(a,b) , then the function after currying, will be transformed to f(a)(b).
 let multiply = function (x, y) {
   console.log(x + y);
 };
@@ -127,11 +141,18 @@ let multiply2 = function (x) {
     console.log(x * y);
   };
 };
-
 let multiplyByTwo2 = multiply2(2);
 multiplyByTwo2(5);
 
+function add(a) {
+  return function (b) {
+    return a + b;
+  };
+}
+add(3)(4);
+
 // Prototype, Prototypal Inheritance
+// All javascript objects inherit properties from a prototype.
 // hidden properties attach to function, array, object, e.t.c through prototypes
 // It an object that is attach to each and every method,object,array,function or whatever we create
 // arr.__proto__.flat
@@ -230,6 +251,7 @@ const names = ["taylor", "katherin", "scarlet"];
 const [taylor, katherin, scarlett] = names;
 console.log(`${taylor} ${katherin} ${scarlett}`);
 // Object destructuring
+// Object destructuring is a new way to extract elements from an object or an array.
 const { firstName, secondName: lastName } = person;
 console.log(firstName, lastName);
 const userAddress = {
@@ -310,6 +332,11 @@ Promises states -
 1. Pending - initial state, not Fulfilled or rejected.
 2. Fulfilled - meaning the operation completed successfully. - then() method for fulfilled
 3. Rejected - meaning the operation rejected. - catch() method for rejected
+
+Promises are used to handle asynchronous operations in JS. Before promises, callbacks were 
+used to handle asynchronous operations. But due to limited functionality of callback, 
+using multiple callbacks to handle asynchronous code can lead to unmanageable code.
+Promise object has four states - 1.Pending 2.Fullfilled 3.Rejected 4.Settled
 */
 const promise = new Promise((resolve, reject) => {
   setTimeout(function () {
@@ -381,6 +408,8 @@ getRandomUsers(2);
 
 /* 
 Generators - function that can be pause
+Introduced in ES6 version, generator functions are a special class of functions they can 
+be stopped midway and then continue from where it had stopped.
 Syntax - 
 function* numbersGen() {
   const value = yield value;
@@ -451,3 +480,54 @@ const getUpdatedRandomUser = async (n) => {
   }
 };
 getUpdatedRandomUser(4);
+
+// Immediately Invoked Function(IIFE) in JavaScript
+// function that runs as soon as it is defined
+(function () {
+  console.log("run as soon as defined");
+});
+
+// Higher Order Functions
+// Functions that operate on other functions, either by taking them as arguments or by
+// returning them, are called higher-order functions.
+function higherOrder(fn) {
+  fn();
+}
+higherOrder(function () {
+  console.log("Hello world");
+});
+
+function higherOrder2() {
+  return function () {
+    return "Do something";
+  };
+}
+var x = higherOrder2();
+x(); // Returns "Do something"
+
+// This Keyword
+// The “this” keyword refers to the object that the function is a property of.
+// The value of “this” keyword will always depend on the object that is invoking the function.
+function doSomething() {
+  console.log(this); // since the function is invoked in a global context, the function
+  // is the property of global object
+}
+doSomething();
+
+// Constructor Function in JS
+// Constructor functions are used to create objects in javascript.
+function Person(name, age, gender) {
+  this.name = name;
+  this.age = age;
+  this.gender = gender;
+}
+var person1 = new Person("Vikas", 25, "male");
+console.log(person1);
+
+// Callback Function in JS
+// Functions that are used as an argument to another function are called callback functions
+
+// DOM (Document object model)
+// DOM is a programming interface for HTML and XML documents. When the browser tries to
+// render a HTML document, it creates an object based on the HTML document called DOM. Using
+// this DOM, we can manipulate or change various elements inside the HTML document.
