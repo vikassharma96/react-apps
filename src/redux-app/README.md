@@ -1,7 +1,3 @@
-# Ultimate Redux Course
-
-This code is from the course [The Ultimate Redux Course](https://codewithmosh.com/courses/enrolled/783424) by [Mosh Hamedani](https://twitter.com/moshhamedani) @ [Code With Mosh](https://codewithmosh.com/)
-
 ## Run the programs
 
 Install Node.js and npm. Once installed open code in your favorite code editor such as Atom, Visual Studio Code or even an IDE such as WebStorm and run `npm i` to install dependencies.
