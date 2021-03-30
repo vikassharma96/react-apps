@@ -531,3 +531,69 @@ console.log(person1);
 // DOM is a programming interface for HTML and XML documents. When the browser tries to
 // render a HTML document, it creates an object based on the HTML document called DOM. Using
 // this DOM, we can manipulate or change various elements inside the HTML document.
+
+// Tricky JS Questions
+console.log(2 + "2"); // 22
+console.log(2 - "2"); // 0
+
+console.log(5 < 6 < 7); // true
+console.log(7 > 6 > 5); // false
+
+let nums = [1, 2, 2, 3]; // remove duplicates
+console.log([...new Set(nums)]);
+
+let func = function () {
+  {
+    let l = "vikas";
+    var v = "sharma";
+  }
+  console.log(l); // will throw error
+  console.log(v); // it print as var has function scope
+};
+// now to avoid accesing var outside we can use IIFE(immediately invoked function expression)
+let func2 = function () {
+  {
+    (function () {
+      let l = "vikas";
+      var v = "sharma";
+    })();
+  }
+  console.log(l); // will throw error
+  console.log(v); // will throw error
+};
+
+let aFunc = function () {
+  return arguments; // give all the arguments
+};
+
+let bFunc = () => arguments; // don't use arguments with arrow function
+console.log(aFunc("hi")); // will not print argument 'hi'
+// as arrow function doesn't bind very well with arguments
+// can be used like this
+let bFunc = (...n) => {
+  return n;
+};
+
+let profile = {
+  name: "vikas",
+};
+
+Object.freeze(profile); // to make profile object read only now we can't change object
+// property and not able to add new propery.
+profile.age = "25"; // will do nothing
+
+let profile2 = {
+  name: "vikas",
+};
+Object.seal(profile2); // with seal we can change property to object but can't add it
+profile2.age = "25"; // will do nothing
+profile2.name = "vikas sharma"; // will change
+
+let profile3 = {
+  name: "vikas",
+};
+Object.defineProperty(profile3, "age", {
+  // now we can't change age but can change name
+  value: 3,
+  writable: false,
+});
