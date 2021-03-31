@@ -594,6 +594,19 @@ let profile3 = {
 };
 Object.defineProperty(profile3, "age", {
   // now we can't change age but can change name
-  value: 3,
+  value: "20",
   writable: false,
 });
+profile3.name = "vikas sharma"; // will change
+profile3.age = "25"; // will do nothing
+
+let array = [5, 4, 2, 1, 10, 20];
+array.sort(); // [1,10,2,20,4,5]
+// it will not sort as expected as js consider it as string so to sort we have to pass a callback func
+array.sort((a, b) => (a > b ? 1 : -1)); // both are same
+array.sort((a, b) => a - b); // both are same
+
+let xa = [1, 2, 3] + [4, 5, 6];
+console.log(xa); // "1,2,34,5,6"
+let xa = [...[1, 2, 3], ...[4, 5, 6]];
+console.log(xa); // [1,2,3,4,5,6]
