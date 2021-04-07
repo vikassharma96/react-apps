@@ -610,3 +610,20 @@ let xa = [1, 2, 3] + [4, 5, 6];
 console.log(xa); // "1,2,34,5,6"
 let xa = [...[1, 2, 3], ...[4, 5, 6]];
 console.log(xa); // [1,2,3,4,5,6]
+
+// debounce function
+const debounce = (fun, delay) => {
+  let timeout;
+  return function (...args) {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      fun(...args);
+    }, delay);
+  };
+};
+
+const onClick = debounce(() => {
+  console.log("cliked");
+}, 2000);
