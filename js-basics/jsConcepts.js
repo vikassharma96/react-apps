@@ -1,7 +1,16 @@
-// hoisting - we can access varibales and function even before initializing
-// Execution context Globle this
-// To avoid hoisting, we can run javascript in strict mode by using “use strict” on top
-// of the code
+/*
+Everything in javascript happends inside an execution context
+              |  memory  |  code  |
+JS is synchronous single threaded language
+Execution context created in 2 phases 
+1. creation or memory creation phase
+2. code execution phase
+To manage execution context js uses call stack.
+hoisting - we can access varibales and function even before initializing
+Execution context Globle this
+To avoid hoisting, we can run javascript in strict mode by using “use strict” on top
+of the code
+*/
 console.log(x);
 console.log(demo);
 console.log(getAge);
@@ -244,7 +253,7 @@ const calc = calculator("casio");
 console.log(calc.name, calc.add(10, 20), calc.enhancedAdd(10, 20), calc.price);
 
 // Array destructuring
-const names = ["taylor", "katherin", "scarlet"];
+const names = ["taylor", "katherin", "scarlett"];
 // const taylor = names[0];
 // const katherin = names[1];
 // const scarlet = names[2];
@@ -327,7 +336,7 @@ dogObject.dogAge();
 
 /* 
 Promises - The promise object is used for asynchronous computations. Represents a value
-be avilable now, in future, or never.
+be available now, in future, or never.
 Promises states - 
 1. Pending - initial state, not Fulfilled or rejected.
 2. Fulfilled - meaning the operation completed successfully. - then() method for fulfilled
@@ -570,7 +579,7 @@ let bFunc = () => arguments; // don't use arguments with arrow function
 console.log(aFunc("hi")); // will not print argument 'hi'
 // as arrow function doesn't bind very well with arguments
 // can be used like this
-let bFunc = (...n) => {
+let bAnotherFunc = (...n) => {
   return n;
 };
 
@@ -600,16 +609,16 @@ Object.defineProperty(profile3, "age", {
 profile3.name = "vikas sharma"; // will change
 profile3.age = "25"; // will do nothing
 
-let array = [5, 4, 2, 1, 10, 20];
-array.sort(); // [1,10,2,20,4,5]
+let newArray = [5, 4, 2, 1, 10, 20];
+newArray.sort(); // [1,10,2,20,4,5]
 // it will not sort as expected as js consider it as string so to sort we have to pass a callback func
-array.sort((a, b) => (a > b ? 1 : -1)); // both are same
-array.sort((a, b) => a - b); // both are same
+newArray.sort((a, b) => (a > b ? 1 : -1)); // both are same
+newArray.sort((a, b) => a - b); // both are same
 
 let xa = [1, 2, 3] + [4, 5, 6];
 console.log(xa); // "1,2,34,5,6"
-let xa = [...[1, 2, 3], ...[4, 5, 6]];
-console.log(xa); // [1,2,3,4,5,6]
+let xaa = [...[1, 2, 3], ...[4, 5, 6]];
+console.log(xaa); // [1,2,3,4,5,6]
 
 // debounce function
 const debounce = (fun, delay) => {
