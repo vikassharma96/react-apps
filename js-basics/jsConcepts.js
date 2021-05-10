@@ -193,6 +193,14 @@ const sumReducer = (initialValue, currentValue) => {
 var reduce = array.reduce(sumReducer, 0);
 console.log(array, "reduce", reduce);
 
+// Rest parameters (...)
+// Using the rest parameter syntax, we can create functions that can take a variable number of arguments.
+// Any number of arguments will be converted into an array using the rest parameter.
+function extractingArgs(...args) {
+  return args[1];
+}
+extractingArgs(8, 9, 1); // Returns 9
+
 // Spread operator
 console.log("....spread operator");
 const arrayOne = [4, 3, 2, 1];
@@ -216,7 +224,27 @@ const address = {
 const person = { ...userName, ...address };
 console.log(JSON.stringify(person));
 
-// lexical and this keyword
+/* lexical and this keyword
+ this keyword always refers to the object that is calling the function
+ In the arrow functions, there is no binding of the this keyword.
+ The this keyword inside an arrow function, does not refer to the object calling it. 
+ It rather inherits its value from the parent scope which is the window object in this below case
+ */
+
+var obj1 = {
+  valueOfThis: function () {
+    return this;
+  },
+};
+var obj2 = {
+  valueOfThis: () => {
+    return this;
+  },
+};
+
+obj1.valueOfThis(); // Will return the object obj1
+obj2.valueOfThis(); // Will return window/global object
+
 const newPerson = {
   myName: "Vikas",
   cars: ["ferari", "lambo"],
@@ -346,13 +374,16 @@ Promises are used to handle asynchronous operations in JS. Before promises, call
 used to handle asynchronous operations. But due to limited functionality of callback, 
 using multiple callbacks to handle asynchronous code can lead to unmanageable code.
 Promise object has four states - 1.Pending 2.Fullfilled 3.Rejected 4.Settled
+
+A promise is created using the Promise constructor which takes in a callback function with 
+two parameters, resolve and reject respectively.
 */
 const promise = new Promise((resolve, reject) => {
   setTimeout(function () {
     resolve("data back from server");
   }, 2000);
   setTimeout(function () {
-    resolve("no data from server, there was an error");
+    reject("no data from server, there was an error");
   }, 1000);
 });
 promise
