@@ -278,6 +278,8 @@ const nameArray = [...myName];
 console.log(nameArray);
 
 // Spread operator with objects
+let userObj1 = new Object(); // "object constructor" syntax
+let userObj2 = {}; // "object literal" syntax
 const userName = {
   firstName: "Vikas",
   secondName: "Sharma",
@@ -326,6 +328,47 @@ const newPerson = {
   },
 };
 newPerson.toString();
+
+// Object references and copying
+let userObj = { name: "Vikas Sharma" };
+let admin = userObj;
+admin.name = "Vikas"; // changed by the "admin" reference
+alert(userObj.name); // 'Vikas', changes are seen from the "user" reference
+console.log(admin == userObj); // true
+console.log(admin === userObj); // true
+// copying
+let newUserObj = { name: "John" };
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+// copies all properties from permissions1 and permissions2 into newUserObj
+Object.assign(newUserObj, permissions1, permissions2);
+// now newUserObj = { name: "John", canView: true, canEdit: true }
+
+// Property existence test, “in” operator
+let userObject = { name: "vikas", age: 25 };
+
+console.log("age" in userObject); // true, user.age exists
+console.log("blabla" in userObject); // false, user.blabla doesn't exist
+
+for (let key in userObject) {
+  // keys
+  console.log(key); // name, age, isAdmin
+  // values for the keys
+  console.log(user[key]); // John, 30, true
+  /*
+  Are objects ordered? In other words, if we loop over an object, do we get all properties in 
+  the same order they were added? Can we rely on this? 
+  The short answer is: “ordered in a special fashion”: integer properties are sorted, others 
+  appear in creation order.
+  */
+}
+
+// Computed properties
+let fruit = "apple";
+let bag = {
+  [fruit]: 5, // the name of the property is taken from the variable fruit
+};
+console.log(bag.apple); // 5 if fruit="apple"
 
 // Enhanced object property
 const pricePropertyName = "PRICE";
