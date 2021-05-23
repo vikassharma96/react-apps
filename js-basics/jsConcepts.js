@@ -1,3 +1,65 @@
+/*
+There are 8 basic data types in JavaScript.
+1.number for numbers of any kind: integer or floating-point, integers are limited by ±(253-1).
+2.bigint is for integer numbers of arbitrary length.
+3.string for strings. A string may have zero or more characters, there’s no separate single-character type.
+4.boolean for true/false.
+5.null for unknown values – a standalone type that has a single value null.
+6.undefined for unassigned values – a standalone type that has a single value undefined.
+7.object for more complex data structures.
+8.symbol for unique identifiers.
+*/
+
+// Nullish coalescing operator '??'
+// The result of a ?? b is: if a is defined, then a, if a isn’t defined, then b
+
+function showMessage(name) {
+  // parameter name default value in undefined
+  // function always gets a copy of the value
+  name = "*" + name + "*";
+  console.log(name); // *vikas*
+}
+
+let nam = "vikas";
+showMessage(nam);
+console.log(nam); // vikas
+
+console.log(0 || "vikas"); // vikas
+console.log(0 ?? "vikas"); // 0
+
+// Callback functions
+function ask(question, yes, no) {
+  if (confirm(question)) yes();
+  else no();
+}
+
+function showOk() {
+  console.log("You agreed.");
+}
+
+function showCancel() {
+  console.log("You canceled the execution.");
+}
+
+// functions showOk, showCancel are passed as arguments which are callback functions to ask
+ask("Do you agree?", showOk, showCancel);
+
+// Function Declaration and Function Expression
+console.log(sum1(1, 2)); // works
+console.log(sum2(1, 2)); // throw error sum2 is not a function
+
+// Function Declaration
+// A Function Declaration can be called earlier than it is defined.
+function sum1(a, b) {
+  return a + b;
+}
+
+// Function Expression
+// A Function Expression is created when the execution reaches it and is usable only from that moment.
+let sum2 = function (a, b) {
+  return a + b;
+};
+
 // hoisting - we can access varibales and function even before initializing
 // Execution context Gloabl this
 console.log(x);
