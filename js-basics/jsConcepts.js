@@ -42,11 +42,11 @@ function showCancel() {
 }
 
 // functions showOk, showCancel are passed as arguments which are callback functions to ask
-ask("Do you agree?", showOk, showCancel);
+// ask("Do you agree?", showOk, showCancel);
 
 // Function Declaration and Function Expression
 console.log(sum1(1, 2)); // works
-console.log(sum2(1, 2)); // throw error sum2 is not a function
+// console.log(sum2(1, 2)); // throw error sum2 is not a function
 
 // Function Declaration
 // A Function Declaration can be called earlier than it is defined.
@@ -333,28 +333,29 @@ newPerson.toString();
 let userObj = { name: "Vikas Sharma" };
 let admin = userObj;
 admin.name = "Vikas"; // changed by the "admin" reference
-alert(userObj.name); // 'Vikas', changes are seen from the "user" reference
+console.log(userObj.name); // 'Vikas', changes are seen from the "user" reference
 console.log(admin == userObj); // true
 console.log(admin === userObj); // true
 // copying
 let newUserObj = { name: "John" };
 let permissions1 = { canView: true };
 let permissions2 = { canEdit: true };
-// copies all properties from permissions1 and permissions2 into newUserObj
+// copies all properties from permissions1 and permissions2 object into newUserObj
 Object.assign(newUserObj, permissions1, permissions2);
 // now newUserObj = { name: "John", canView: true, canEdit: true }
+newUserObj = { ...newUserObj, ...permissions1, ...permissions2 }; // clone using spread operator
 
 // Property existence test, “in” operator
 let userObject = { name: "vikas", age: 25 };
 
-console.log("age" in userObject); // true, user.age exists
-console.log("blabla" in userObject); // false, user.blabla doesn't exist
+console.log("age" in userObject); // true, userObject.age exists
+console.log("blabla" in userObject); // false, userObject.blabla doesn't exist
 
 for (let key in userObject) {
   // keys
   console.log(key); // name, age, isAdmin
   // values for the keys
-  console.log(user[key]); // John, 30, true
+  console.log(userObject[key]); // John, 30, true
   /*
   Are objects ordered? In other words, if we loop over an object, do we get all properties in 
   the same order they were added? Can we rely on this? 
@@ -386,6 +387,38 @@ const calculator = (name) => {
 };
 const calc = calculator("casio");
 console.log(calc.name, calc.add(10, 20), calc.enhancedAdd(10, 20), calc.price);
+
+// Array
+/*
+1. pop - Extracts the last element of the array and returns it:
+2. push - Append the element to the end of the array:
+3. shift - Extracts the first element of the array and returns it:
+4. unshift - Add the element to the beginning of the array:
+5. splice - How to delete an element from the array? The arrays are objects, so we can try to use delete
+let arr = ["I", "go", "home"];
+delete arr[1]; // remove "go"
+alert( arr[1] ); // undefined
+// now arr = ["I",  , "home"];
+alert( arr.length ); // 3
+The element was removed, but the array still has 3 elements, we can see that arr.length == 3.
+That’s natural, because delete obj.key removes a value by the key. It’s all it does. Fine for 
+objects. But for arrays we usually want the rest of elements to shift and occupy the freed place. We expect to have a shorter array now.
+So, special methods should be used.
+The arr.splice method can do everything: insert, remove and replace elements.
+The syntax is: arr.splice(start[, deleteCount, elem1, ..., elemN])
+It modifies arr starting from the index start: removes deleteCount elements and then inserts 
+elem1, ..., elemN at their place. Returns the array of removed elements.
+let arr = ["I", "study", "JavaScript"];
+arr.splice(1, 1, "study more"); // from index 1 remove 1 element
+alert( arr ); // ["I", "study more", "JavaScript"]
+negative indixes allowed
+let arr = [1, 2, 5];
+// from index -1 (one step from the end)
+// delete 0 elements,
+// then insert 3 and 4
+arr.splice(-1, 0, 3, 4);
+alert( arr ); // 1,2,3,4,5
+*/
 
 // Array destructuring
 const names = ["taylor", "katherin", "scarlett"];
@@ -658,6 +691,7 @@ x(); // Returns "Do something"
 function doSomething() {
   console.log(this); // since the function is invoked in a global context, the function
   // is the property of global object
+  // in strict mode it gives undefined
 }
 doSomething();
 
@@ -678,6 +712,18 @@ console.log(person1);
 // DOM is a programming interface for HTML and XML documents. When the browser tries to
 // render a HTML document, it creates an object based on the HTML document called DOM. Using
 // this DOM, we can manipulate or change various elements inside the HTML document.
+
+// Optional chaining
+// The optional chaining ?. stops the evaluation if the value before ?. is undefined or null and returns undefined.
+// ?. for value or ?.() for function that may not exist
+let userAdmin = {
+  admin() {
+    alert("I am admin");
+  },
+};
+let userGuest = {};
+userAdmin.admin?.(); // I am admin
+userGuest.admin?.(); // nothing (no such method)
 
 // Tricky JS Questions
 console.log(2 + "2"); // 22
@@ -721,9 +767,70 @@ let bAnotherFunc = (...n) => {
   return n;
 };
 
+// Arrow functions have no “this”
+// Arrow functions are special: they don’t have their “own” this. If we reference this from such
+// a function, it’s taken from the outer “normal” function. For instance, here arrow() uses this
+// from the outer user.sayHi() method:
+let userr = {
+  firstName: "Sharma",
+  sayHi() {
+    let arrow = () => console.log(this.firstName);
+    arrow();
+  },
+};
+userr.sayHi(); // Sharma
+function makeUser() {
+  return {
+    name: "John",
+    ref: this, // it's undefined as called as function
+  };
+}
+let usereNew = makeUser();
+console.log(usereNew.ref.name); // Here the value of this inside makeUser() is undefined, because it is called as a function, not as a method with “dot” syntax.
 let profile = {
   name: "vikas",
 };
+
+// function makeUser() {
+//   return {
+//     name: "John",
+//     ref() {
+//       return this;
+//     }
+//   };
+// }
+// let user = makeUser();
+// alert( user.ref().name ); // John
+
+// Constructor, operator "new"
+/*
+The regular {...} syntax allows to create one object. But often we need to create many similar 
+objects, like multiple users or menu items and so on.
+That can be done using constructor functions and the "new" operator.
+Constructor function
+Constructor functions technically are regular functions. There are two conventions though:
+They are named with capital letter first.
+They should be executed only with "new" operator.
+When a function is executed with new, it does the following steps:
+1.A new empty object is created and assigned to this.
+2.The function body executes. Usually it modifies this, adds new properties to it.
+3.The value of this is returned.
+In other words, new User(...) does something like:
+function User(name) {
+  // this = {};  (implicitly)
+  // add properties to this
+  this.name = name;
+  this.isAdmin = false;
+  // return this;  (implicitly)
+}
+*/
+function User(name) {
+  this.name = name;
+  this.isAdmin = false;
+}
+let userrr = new User("Jack");
+console.log(userrr.name); // Jack
+console.log(userrr.isAdmin); // false
 
 Object.freeze(profile); // to make profile object read only now we can't change object
 // property and not able to add new propery.
