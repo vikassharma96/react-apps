@@ -62,6 +62,19 @@ let sum2 = function (a, b) {
 
 // hoisting - we can access varibales and function even before initializing
 // Execution context Gloabl this
+/*
+Everything in javascript happends inside an execution context
+              |  memory  |  code  |
+JS is synchronous single threaded language
+Execution context created in 2 phases 
+1. creation or memory creation phase
+2. code execution phase
+To manage execution context js uses call stack.
+hoisting - we can access varibales and function even before initializing
+Execution context Globle this
+To avoid hoisting, we can run javascript in strict mode by using “use strict” on top
+of the code
+*/
 console.log(x);
 console.log(demo);
 console.log(getAge);
@@ -88,6 +101,8 @@ abcd();
 console.log(a2);
 console.log(b);
 
+// There are three types of scopes in JS:
+// 1.Global Scope 2. Local or Function Scope 3.Block Scope
 // Block scope
 var name = {
   name: "vikas",
@@ -144,6 +159,14 @@ const argument = () => {
 };
 main(argument);
 
+// call() method allows an object to use the method (function) of another object.
+function sayHello() {
+  return "Hello " + this.name;
+}
+var obj = { name: "Vikas" };
+
+sayHello.call(obj);
+
 let MyName = {
   firstName: "Vikas",
   lastName: "Sharma",
@@ -153,8 +176,8 @@ let MyName = {
   },
 };
 
-let getFullName2 = function (pockemon) {
-  console.log(this.firstName + " " + this.lastName + " " + pockemon);
+let getFullName2 = function (pokemon) {
+  console.log(this.firstName + " " + this.lastName + " " + pokemon);
 };
 
 getFullName2.call(MyName, "pikachu");
@@ -177,7 +200,9 @@ MyName.getFullName.apply(MyName2, ["doremon", "nobita"]);
 var printMyName = getFullName2.bind(MyName2, "nobita");
 printMyName();
 
-// currying in js
+// Currying in js
+// Currying is an advanced technique to transform a function of arguments n, to n functions of one or less arguments.
+// For Example, if we have a function f(a,b) , then the function after currying, will be transformed to f(a)(b).
 let multiply = function (x, y) {
   console.log(x + y);
 };
@@ -189,11 +214,18 @@ let multiply2 = function (x) {
     console.log(x * y);
   };
 };
-
 let multiplyByTwo2 = multiply2(2);
 multiplyByTwo2(5);
 
+function add(a) {
+  return function (b) {
+    return a + b;
+  };
+}
+add(3)(4);
+
 // Prototype, Prototypal Inheritance
+// All javascript objects inherit properties from a prototype.
 // hidden properties attach to function, array, object, e.t.c through prototypes
 // It an object that is attach to each and every method,object,array,function or whatever we create
 // arr.__proto__.flat
@@ -225,6 +257,14 @@ const sumReducer = (initialValue, currentValue) => {
 var reduce = array.reduce(sumReducer, 0);
 console.log(array, "reduce", reduce);
 
+// Rest parameters (...)
+// Using the rest parameter syntax, we can create functions that can take a variable number of arguments.
+// Any number of arguments will be converted into an array using the rest parameter.
+function extractingArgs(...args) {
+  return args[1];
+}
+extractingArgs(8, 9, 1); // Returns 9
+
 // Spread operator
 console.log("....spread operator");
 const arrayOne = [4, 3, 2, 1];
@@ -248,7 +288,27 @@ const address = {
 const person = { ...userName, ...address };
 console.log(JSON.stringify(person));
 
-// lexical and this keyword
+/* lexical and this keyword
+ this keyword always refers to the object that is calling the function
+ In the arrow functions, there is no binding of the this keyword.
+ The this keyword inside an arrow function, does not refer to the object calling it. 
+ It rather inherits its value from the parent scope which is the window object in this below case
+ */
+
+var obj1 = {
+  valueOfThis: function () {
+    return this;
+  },
+};
+var obj2 = {
+  valueOfThis: () => {
+    return this;
+  },
+};
+
+obj1.valueOfThis(); // Will return the object obj1
+obj2.valueOfThis(); // Will return window/global object
+
 const newPerson = {
   myName: "Vikas",
   cars: ["ferari", "lambo"],
@@ -285,13 +345,14 @@ const calc = calculator("casio");
 console.log(calc.name, calc.add(10, 20), calc.enhancedAdd(10, 20), calc.price);
 
 // Array destructuring
-const names = ["taylor", "katherin", "scarlet"];
+const names = ["taylor", "katherin", "scarlett"];
 // const taylor = names[0];
 // const katherin = names[1];
 // const scarlet = names[2];
 const [taylor, katherin, scarlett] = names;
 console.log(`${taylor} ${katherin} ${scarlett}`);
 // Object destructuring
+// Object destructuring is a new way to extract elements from an object or an array.
 const { firstName, secondName: lastName } = person;
 console.log(firstName, lastName);
 const userAddress = {
@@ -367,18 +428,26 @@ dogObject.dogAge();
 
 /* 
 Promises - The promise object is used for asynchronous computations. Represents a value
-be avilable now, in future, or never.
+be available now, in future, or never.
 Promises states - 
 1. Pending - initial state, not Fulfilled or rejected.
 2. Fulfilled - meaning the operation completed successfully. - then() method for fulfilled
 3. Rejected - meaning the operation rejected. - catch() method for rejected
+
+Promises are used to handle asynchronous operations in JS. Before promises, callbacks were 
+used to handle asynchronous operations. But due to limited functionality of callback, 
+using multiple callbacks to handle asynchronous code can lead to unmanageable code.
+Promise object has four states - 1.Pending 2.Fullfilled 3.Rejected 4.Settled
+
+A promise is created using the Promise constructor which takes in a callback function with 
+two parameters, resolve and reject respectively.
 */
 const promise = new Promise((resolve, reject) => {
   setTimeout(function () {
     resolve("data back from server");
   }, 2000);
   setTimeout(function () {
-    resolve("no data from server, there was an error");
+    reject("no data from server, there was an error");
   }, 1000);
 });
 promise
@@ -443,6 +512,8 @@ getRandomUsers(2);
 
 /* 
 Generators - function that can be pause
+Introduced in ES6 version, generator functions are a special class of functions they can 
+be stopped midway and then continue from where it had stopped.
 Syntax - 
 function* numbersGen() {
   const value = yield value;
@@ -513,3 +584,150 @@ const getUpdatedRandomUser = async (n) => {
   }
 };
 getUpdatedRandomUser(4);
+
+// Immediately Invoked Function(IIFE) in JavaScript
+// function that runs as soon as it is defined
+(function () {
+  console.log("run as soon as defined");
+});
+
+// Higher Order Functions
+// Functions that operate on other functions, either by taking them as arguments or by
+// returning them, are called higher-order functions.
+function higherOrder(fn) {
+  fn();
+}
+higherOrder(function () {
+  console.log("Hello world");
+});
+
+function higherOrder2() {
+  return function () {
+    return "Do something";
+  };
+}
+var x = higherOrder2();
+x(); // Returns "Do something"
+
+// This Keyword
+// The “this” keyword refers to the object that the function is a property of.
+// The value of “this” keyword will always depend on the object that is invoking the function.
+function doSomething() {
+  console.log(this); // since the function is invoked in a global context, the function
+  // is the property of global object
+}
+doSomething();
+
+// Constructor Function in JS
+// Constructor functions are used to create objects in javascript.
+function Person(name, age, gender) {
+  this.name = name;
+  this.age = age;
+  this.gender = gender;
+}
+var person1 = new Person("Vikas", 25, "male");
+console.log(person1);
+
+// Callback Function in JS
+// Functions that are used as an argument to another function are called callback functions
+
+// DOM (Document object model)
+// DOM is a programming interface for HTML and XML documents. When the browser tries to
+// render a HTML document, it creates an object based on the HTML document called DOM. Using
+// this DOM, we can manipulate or change various elements inside the HTML document.
+
+// Tricky JS Questions
+console.log(2 + "2"); // 22
+console.log(2 - "2"); // 0
+
+console.log(5 < 6 < 7); // true
+console.log(7 > 6 > 5); // false
+
+let nums = [1, 2, 2, 3]; // remove duplicates
+console.log([...new Set(nums)]);
+
+let func = function () {
+  {
+    let l = "vikas";
+    var v = "sharma";
+  }
+  console.log(l); // will throw error
+  console.log(v); // it print as var has function scope
+};
+// now to avoid accesing var outside we can use IIFE(immediately invoked function expression)
+let func2 = function () {
+  {
+    (function () {
+      let l = "vikas";
+      var v = "sharma";
+    })();
+  }
+  console.log(l); // will throw error
+  console.log(v); // will throw error
+};
+
+let aFunc = function () {
+  return arguments; // give all the arguments
+};
+
+let bFunc = () => arguments; // don't use arguments with arrow function
+console.log(aFunc("hi")); // will not print argument 'hi'
+// as arrow function doesn't bind very well with arguments
+// can be used like this
+let bAnotherFunc = (...n) => {
+  return n;
+};
+
+let profile = {
+  name: "vikas",
+};
+
+Object.freeze(profile); // to make profile object read only now we can't change object
+// property and not able to add new propery.
+profile.age = "25"; // will do nothing
+
+let profile2 = {
+  name: "vikas",
+};
+Object.seal(profile2); // with seal we can change property to object but can't add it
+profile2.age = "25"; // will do nothing
+profile2.name = "vikas sharma"; // will change
+
+let profile3 = {
+  name: "vikas",
+};
+Object.defineProperty(profile3, "age", {
+  // now we can't change age but can change name
+  value: "20",
+  writable: false,
+});
+profile3.name = "vikas sharma"; // will change
+profile3.age = "25"; // will do nothing
+
+let newArray = [5, 4, 2, 1, 10, 20];
+newArray.sort(); // [1,10,2,20,4,5]
+// it will not sort as expected as js consider it as string so to sort we have to pass a callback func
+newArray.sort((a, b) => (a > b ? 1 : -1)); // both are same
+newArray.sort((a, b) => a - b); // both are same
+
+let xa = [1, 2, 3] + [4, 5, 6];
+console.log(xa); // "1,2,34,5,6"
+let xaa = [...[1, 2, 3], ...[4, 5, 6]];
+console.log(xaa); // [1,2,3,4,5,6]
+
+// debounce function
+const debounce = (fun, delay) => {
+  let timeout;
+  return function (...args) {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      fun(...args);
+    }, delay);
+  };
+};
+
+const onClick = debounce(() => {
+  console.log("cliked");
+}, 2000);
