@@ -60,6 +60,18 @@ let sum2 = function (a, b) {
   return a + b;
 };
 
+// Named function expression
+let sayHiThere = function func(who) {
+  if (who) {
+    alert(`Hello, ${who}`);
+  } else {
+    func("Guest"); // use func to re-call itself
+  }
+};
+sayHiThere(); // Hello, Guest
+// But this won't work:
+// func(); // Error, func is not defined (not visible outside of the function)
+
 // hoisting - we can access varibales and function even before initializing
 // Execution context Gloabl this
 /*
@@ -115,6 +127,21 @@ if (true) {
 }
 
 // Closure - Function along with it's lexical environment forms Closures
+function makeCounter() {
+  let count = 0;
+
+  return function () {
+    return count++;
+  };
+}
+let counter = makeCounter();
+console.log(counter()); // 0
+console.log(counter()); // 1
+console.log(counter()); // 2
+// a nested function can be returned: either as a property of a new object or as a result by
+// itself. It can then be used somewhere else. No matter where, it still has access to the same
+// outer variables.
+
 function abc() {
   var x = 10;
   function b() {
@@ -418,6 +445,72 @@ let arr = [1, 2, 5];
 // then insert 3 and 4
 arr.splice(-1, 0, 3, 4);
 alert( arr ); // 1,2,3,4,5
+
+6. slice - It returns a new array copying to it all items from index start to end (not including end). 
+Both start and end can be negative, in that case position from array end is assumed.
+let arr = ["t", "e", "s", "t"];
+alert(arr.slice(1, 3)); // e,s (copy from 1 to 3)
+alert(arr.slice(-2)); // s,t (copy from -2 till the end)
+
+7. Searching in array
+indexOf/lastIndexOf
+let arr = [1, 0, false];
+alert(arr.indexOf(0)); // 1
+alert(arr.indexOf(false)); // 2
+alert(arr.indexOf(null)); // -1
+alert(arr.includes(1)); // true
+arr.indexOf(item, from) – looks for item starting from index from, and returns the index where it was found, otherwise -1.
+arr.lastIndexOf(item, from) – same, but looks for from right to left.
+arr.includes(item, from) – looks for item starting from index from, returns true if found.
+8. find - ind an object with the specific condition
+let result = arr.find(function(item, index, array) {
+  // if true is returned, item is returned and iteration is stopped
+  // for falsy scenario returns undefined
+});
+9. filter - The find method looks for a single (first) element that makes the function return true.
+If there may be many, we can use arr.filter(fn).
+The syntax is similar to find, but filter returns an array of all matching elements:
+let results = arr.filter(function(item, index, array) {
+  // if true item is pushed to results and the iteration continues
+  // returns empty array if nothing found
+});
+
+10 - Transform an array
+Map - The arr.map method is one of the most useful and often used.
+It calls the function for each element of the array and returns the array of results.
+let result = arr.map(function(item, index, array) {
+  // returns the new value instead of item
+});
+Sort - 
+function compareNumeric(a, b) {
+  if (a > b) return 1;
+  if (a == b) return 0;
+  if (a < b) return -1;
+}
+let arr = [ 1, 2, 15 ];
+arr.sort(compareNumeric);
+alert(arr);  // 1, 2, 15
+Reduce - reduce is used to calculate a single value based on the array
+let value = arr.reduce(function(accumulator, item, index, array) {
+  // ...
+}, [initial]);
+let arr = [1, 2, 3, 4, 5];
+let result = arr.reduce((sum, current) => sum + current, 0);
+alert(result); // 15
+*/
+
+/*
+Map - Map is a collection of keyed data items, just like an Object. But the main difference is 
+that Map allows keys of any type.
+Methods and properties are:
+new Map() – creates the map.
+map.set(key, value) – stores the value by the key.
+map.get(key) – returns the value by the key, undefined if key doesn’t exist in map.
+map.has(key) – returns true if the key exists, false otherwise.
+map.delete(key) – removes the value by the key.
+map.clear() – removes everything from the map.
+map.size – returns the current element count.
+unlike objects, keys are not converted to strings in map.
 */
 
 // Array destructuring
@@ -718,7 +811,7 @@ console.log(person1);
 // ?. for value or ?.() for function that may not exist
 let userAdmin = {
   admin() {
-    alert("I am admin");
+    console.log("I am admin");
   },
 };
 let userGuest = {};
