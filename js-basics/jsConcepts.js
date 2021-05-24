@@ -1071,10 +1071,6 @@ console.log("Again: " + slow(1)); // slow(1) result returned from cache
 console.log(slow(2)); // slow(2) is cached and the result returned
 console.log("Again: " + slow(2)); // slow(2) result returned from cache
 
-function onButtonClick() {
-  console.log("called on button click");
-}
-
 function myDebounceFunc(func, delay) {
   let timer;
   return function () {
@@ -1088,3 +1084,70 @@ function myDebounceFunc(func, delay) {
 const onInputChange = myDebounceFunc(() => {
   console.log("myDebounceFunc called");
 }, 1000);
+
+/* 
+debounce runs the function once after the “cooldown” period. Good for processing the final result.
+throttle runs it not more often than given ms time. Good for regular updates that shouldn’t be very often.
+1.For the first mouse movement the decorated variant immediately passes the call to update. That’s important, the user 
+sees our reaction to their move immediately.
+2.Then as the mouse moves on, until 100ms nothing happens. The decorated variant ignores calls.
+3.At the end of 100ms – one more update happens with the last coordinates.
+4.Then, finally, the mouse stops somewhere. The decorated variant waits until 100ms expire and then runs 
+update with last coordinates. So, quite important, the final mouse coordinates are processed.
+
+Arrow functions:
+Do not have this
+Do not have arguments
+
+function defer(f, ms) {
+  return function() {
+    setTimeout(() => f.apply(this, arguments), ms);
+  };
+}
+function sayHi(who) {
+  alert('Hello, ' + who);
+}
+let sayHiDeferred = defer(sayHi, 2000);
+sayHiDeferred("John"); // Hello, John after 2 seconds
+
+The same without an arrow function would look like:
+function defer(f, ms) {
+  return function(...args) {
+    let ctx = this;
+    setTimeout(function() {
+      return f.apply(ctx, args);
+    }, ms);
+  };
+}
+*/
+function throttle(func, ms) {
+  let isThrottled = false,
+    savedArgs,
+    savedThis;
+  function wrapper() {
+    if (isThrottled) {
+      // (2)
+      savedArgs = arguments;
+      savedThis = this;
+      return;
+    }
+    isThrottled = true;
+    func.apply(this, arguments); // (1)
+    setTimeout(function () {
+      isThrottled = false; // (3)
+      if (savedArgs) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = savedThis = null;
+      }
+    }, ms);
+  }
+  return wrapper;
+}
+
+var checkCounter = 0;
+setInterval(() => {
+  checkCounter += 1;
+});
+const onButtonClick = throttle(() => {
+  console.log("called on button click with throttle", this.checkCounter);
+}, 2000);
