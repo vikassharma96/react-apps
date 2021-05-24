@@ -198,6 +198,10 @@ let admin = { name: "Admin" };
 // use call to pass different objects as "this"
 sayHi.call(user, "hello"); // John
 sayHi.call(admin); // Admin
+
+The only syntax difference between call and apply is that call expects a list of arguments, while apply takes an array-like object with them.
+apply will probably be faster, because most JavaScript engines internally optimize it better.
+Passing all arguments along with the context to another function is called call forwarding
 */
 function sayHello() {
   return "Hello " + this.name;
