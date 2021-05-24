@@ -1070,3 +1070,21 @@ console.log("Again: " + slow(1)); // slow(1) result returned from cache
 
 console.log(slow(2)); // slow(2) is cached and the result returned
 console.log("Again: " + slow(2)); // slow(2) result returned from cache
+
+function onButtonClick() {
+  console.log("called on button click");
+}
+
+function myDebounceFunc(func, delay) {
+  let timer;
+  return function () {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => func.apply(this, arguments), delay);
+  };
+}
+
+const onInputChange = myDebounceFunc(() => {
+  console.log("myDebounceFunc called");
+}, 1000);
