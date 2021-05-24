@@ -60,10 +60,10 @@ let sum2 = function (a, b) {
   return a + b;
 };
 
-// Named function expression
+// Named function expression (NFE)
 let sayHiThere = function func(who) {
   if (who) {
-    alert(`Hello, ${who}`);
+    console.log(`Hello, ${who}`);
   } else {
     func("Guest"); // use func to re-call itself
   }
@@ -186,7 +186,19 @@ const argument = () => {
 };
 main(argument);
 
-// call() method allows an object to use the method (function) of another object.
+/* 
+call() method allows an object to use the method (function) of another object.
+There’s a special built-in function method func.call(context, …args) that allows to call a function explicitly setting this.
+As an example, in the code below we call sayHi in the context of different objects: sayHi.call(user) runs sayHi providing this=user, and the next line sets this=admin
+function sayHi(phrase) {
+  alert(this.name + phrase);
+}
+let user = { name: "John" };
+let admin = { name: "Admin" };
+// use call to pass different objects as "this"
+sayHi.call(user, "hello"); // John
+sayHi.call(admin); // Admin
+*/
 function sayHello() {
   return "Hello " + this.name;
 }
@@ -974,3 +986,83 @@ const debounce = (fun, delay) => {
 const onClick = debounce(() => {
   console.log("cliked");
 }, 2000);
+
+/*
+Scheduling: setTimeout and setInterval - 
+We may decide to execute a function not right now, but at a certain time later. That’s called “scheduling a call”.
+There are two methods for it:
+1.setTimeout allows us to run a function once after the interval of time.
+2.setInterval allows us to run a function repeatedly, starting after the interval of time, then repeating continuously at that interval.
+*/
+function timeOutFunc(phrase, who) {
+  console.log(phrase + ", " + who);
+}
+setTimeout(timeOutFunc, 1000, "Hello", "Vikas"); // Hello, Vikas
+// A call to setTimeout returns a “timer identifier” timerId that we can use to cancel the execution.
+let timerId = setTimeout(() => console.log("hi there will not print"), 300);
+clearTimeout(timerId);
+
+function intervalFunc() {
+  clearInterval(timerId);
+  console.log("called after a particular interval");
+}
+timerId = setInterval(intervalFunc, 500);
+
+// Nested SetTimeout
+let ctr = 0;
+let newTimerId = setTimeout(function tick() {
+  console.log("tick tick...");
+  ctr++;
+  newTimerId = setTimeout(tick, 1000); // (*)
+  if (ctr === 5) {
+    clearTimeout(newTimerId);
+  }
+}, 1000);
+/* Nested setTimeout allows to set the delay between the executions more precisely than setInterval.
+let i = 1;
+setInterval(function() {
+  func(i++);
+}, 100);
+The real delay between func calls for setInterval is less than in the code!
+That’s normal, because the time taken by func's execution “consumes” a part of the interval.
+It is possible that func's execution turns out to be longer than we expected and takes more than 100ms.
+In this case the engine waits for func to complete, then checks the scheduler and if the time is up, runs it again immediately.
+In the edge case, if the function always executes longer than delay ms, then the calls will happen without a pause at all.
+let i = 1;
+setTimeout(function run() {
+  func(i++);
+  setTimeout(run, 100);
+}, 100);
+The nested setTimeout guarantees the fixed delay (here 100ms).
+Any setTimeout will run only after the current code has finished.
+*/
+
+/*
+cached function
+*/
+function slow(x) {
+  // there can be a heavy CPU-intensive job here
+  console.log(`Called with ${x}`);
+  return x;
+}
+
+function cachingDecorator(func) {
+  let cache = new Map();
+  return function (x) {
+    if (cache.has(x)) {
+      // if there's such key in cache
+      return cache.get(x); // read the result from it
+    }
+    let result = func(x); // otherwise call func // in case of object we use func.call(this,x)
+    cache.set(x, result); // and cache (remember) the result
+    return result;
+  };
+}
+
+slow = cachingDecorator(slow);
+
+console.log(slow(1)); // slow(1) is cached and the result returned
+console.log("Again: " + slow(1)); // slow(1) result returned from cache
+
+console.log(slow(2)); // slow(2) is cached and the result returned
+console.log("Again: " + slow(2)); // slow(2) result returned from cache
