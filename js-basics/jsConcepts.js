@@ -243,9 +243,32 @@ MyName.getFullName.apply(MyName2, ["doremon", "nobita"]);
 var printMyName = getFullName2.bind(MyName2, "nobita");
 printMyName();
 
-// Currying in js
-// Currying is an advanced technique to transform a function of arguments n, to n functions of one or less arguments.
-// For Example, if we have a function f(a,b) , then the function after currying, will be transformed to f(a)(b).
+/* 
+Currying in js
+Currying is an advanced technique to transform a function of arguments n, to n functions of one or less arguments.
+For Example, if we have a function f(a,b) , then the function after currying, will be transformed to f(a)(b).
+Advanced curry implementation
+In case you’d like to get in to the details, here’s the “advanced” curry implementation for multi-argument
+function curry(func) {
+  return function curried(...args) {
+    if (args.length >= func.length) {
+      return func.apply(this, args);
+    } else {
+      return function(...args2) {
+        return curried.apply(this, args.concat(args2));
+      }
+    }
+  };
+}
+
+function sum(a, b, c) {
+  return a + b + c;
+}
+let curriedSum = curry(sum);
+alert( curriedSum(1, 2, 3) ); // 6, still callable normally
+alert( curriedSum(1)(2,3) ); // 6, currying of 1st arg
+alert( curriedSum(1)(2)(3) ); // 6, full currying
+*/
 let multiply = function (x, y) {
   console.log(x + y);
 };
@@ -726,6 +749,47 @@ new Promise(function (resolve, reject) {
   });
 
 /* 
+Microtasks - Microtasks queue
+Promise handlers .then/.catch/.finally are always asynchronous.
+Even when a Promise is immediately resolved, the code on the lines below .then/.catch/.finally will still execute before these handlers.
+let promise = Promise.resolve();
+promise.then(() => alert("promise done!"));
+alert("code finished"); // this alert shows first
+*/
+
+/* 
+Async/await
+The word “async” before a function means one simple thing: a function always returns a promise. Other values are wrapped in a resolved promise automatically.
+async function f() {
+  return 1;
+}
+f().then(alert); // 1
+
+We could explicitly return a promise, which would be the same:
+async function f() {
+  return Promise.resolve(1);
+}
+f().then(alert); // 1
+
+The keyword await makes JavaScript wait until that promise settles and returns its result.
+async function f() {
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("done!"), 1000)
+  });
+  let result = await promise; // wait until the promise resolves (*)
+  alert(result); // "done!"
+}
+f();
+
+Can’t use await in regular functions
+If we try to use await in a non-async function, there would be a syntax error:
+function f() {
+  let promise = Promise.resolve(1);
+  let result = await promise; // Syntax error
+}
+*/
+
+/* 
 Generators - function that can be pause
 Introduced in ES6 version, generator functions are a special class of functions they can 
 be stopped midway and then continue from where it had stopped.
@@ -738,6 +802,22 @@ const gen = numbersGen();
 gen.next()
 gen.next().value
 gen.next().done
+
+Regular functions return only one, single value (or nothing).
+Generators can return (“yield”) multiple values, one after another, on-demand. They work great with iterables, allowing to create data streams with ease.
+
+Generators are iterable
+function* generateSequence() {
+  yield 1;
+  yield 2;
+  return 3;
+}
+
+let generator = generateSequence();
+
+for(let value of generator) {
+  alert(value); // 1, then 2
+}
 */
 const getValues = function* () {
   yield 1;
