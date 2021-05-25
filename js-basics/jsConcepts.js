@@ -626,6 +626,13 @@ Promise object has four states - 1.Pending 2.Fullfilled 3.Rejected 4.Settled
 
 A promise is created using the Promise constructor which takes in a callback function with 
 two parameters, resolve and reject respectively.
+
+                            resolve(value)     state: "fullfilled"
+new Promise(Executor)      |------------------ result: value
+state: "pending" --------- |reject(error)      state: "rejceted"
+result: undefined          |------------------ result: error 
+
+Consuming functions can be registered (subscribed) using methods .then, .catch and .finally                                      
 */
 const promise = new Promise((resolve, reject) => {
   setTimeout(function () {
@@ -694,6 +701,29 @@ const getRandomUsers = (n) => {
     .catch((error) => console.log(error));
 };
 getRandomUsers(2);
+
+// dealy with a promise
+function delayWithPromise(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+delayWithPromise(3000).then(() => console.log("runs after 3 seconds"));
+
+//Promise chanining
+new Promise(function (resolve, reject) {
+  setTimeout(() => resolve(1), 1000);
+})
+  .then(function (result) {
+    console.log(result); // 1
+    return result * 2;
+  })
+  .then(function (result) {
+    console.log(result); // 2
+    return result * 2;
+  })
+  .then(function (result) {
+    console.log(result); // 4
+    return result * 2;
+  });
 
 /* 
 Generators - function that can be pause
