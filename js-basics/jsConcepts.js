@@ -1151,3 +1151,88 @@ setInterval(() => {
 const onButtonClick = throttle(() => {
   console.log("called on button click with throttle", this.checkCounter);
 }, 2000);
+
+/*
+Property flags and descriptors
+Until now, a property was a simple “key-value” pair to us. But an object property is actually a more flexible and powerful thing.
+Property flags - 
+Object properties, besides a value, have three special attributes (so-called “flags”):
+writable – if true, the value can be changed, otherwise it’s read-only.
+enumerable – if true, then listed in loops, otherwise not listed.
+configurable – if true, the property can be deleted and these attributes can be modified, otherwise not.
+
+let user = {
+  name: "John"
+};
+let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
+console.log(JSON.stringify(descriptor, null, 2));
+property descriptor:
+{
+  "value": "John",
+  "writable": true,
+  "enumerable": true,
+  "configurable": true
+}
+*/
+
+let userObjjj = {};
+Object.defineProperty(userObjjj, "name", {
+  value: "John",
+});
+let descriptor = Object.getOwnPropertyDescriptor(userObjjj, "name");
+console.log(JSON.stringify(descriptor, null, 2));
+/*
+{
+  "value": "John",
+  "writable": false,
+  "enumerable": false,
+  "configurable": false
+}
+*/
+Object.defineProperty(userObjjj, "name", {
+  writable: false,
+});
+
+// Property getters and setters
+let userObjecttt = {
+  name: "Sharma",
+  surname: "Vikas",
+
+  get fullName() {
+    return `${this.name} ${this.surname}`;
+  },
+
+  set fullName(value) {
+    [this.name, this.surname] = value.split(" ");
+  },
+};
+
+// set fullName is executed with the given value.
+userObjecttt.fullName = "Vikas Sharma";
+console.log(userObjecttt.name); // Vikas // if getter is not there it shows error
+console.log(userObjecttt.surname); // Sharma
+
+// Prototypal Inheritance
+// In JavaScript, objects have a special hidden property [[Prototype]] (as named in the specification), that is either null or references another object. That object is called “a prototype”
+// When we read a property from object, and it’s missing, JavaScript automatically takes it from the prototype. In programming, this is called “prototypal inheritance”.
+// The value of __proto__ can be either an object or null
+let animal = {
+  eats: true,
+};
+let rabbit = {
+  jumps: true,
+};
+rabbit.__proto__ = animal; // sets rabbit.[[Prototype]] = animal
+// we can find both properties in rabbit now:
+console.log(rabbit.eats); // true
+console.log(rabbit.jumps); // true
+
+// The prototype is only used for reading properties.
+// Write/delete operations work directly with the object.
+let arrrrray = [1, 2, 3];
+// it inherits from Array.prototype?
+console.log(arrrrray.__proto__ === Array.prototype); // true
+// then from Object.prototype?
+console.log(arrrrray.__proto__.__proto__ === Object.prototype); // true
+// and null on the top.
+console.log(arrrrray.__proto__.__proto__.__proto__); // null
