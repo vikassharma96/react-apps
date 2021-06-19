@@ -1346,3 +1346,5 @@ console.log(arrrrray.__proto__ === Array.prototype); // true
 console.log(arrrrray.__proto__.__proto__ === Object.prototype); // true
 // and null on the top.
 console.log(arrrrray.__proto__.__proto__.__proto__); // null
+
+// Own reduce, filter and map method
