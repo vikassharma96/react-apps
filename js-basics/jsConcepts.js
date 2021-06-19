@@ -652,7 +652,7 @@ two parameters, resolve and reject respectively.
 
                             resolve(value)     state: "fullfilled"
 new Promise(Executor)      |------------------ result: value
-state: "pending" --------- |reject(error)      state: "rejceted"
+state: "pending" --------- |reject(error)      state: "rejected"
 result: undefined          |------------------ result: error 
 
 Consuming functions can be registered (subscribed) using methods .then, .catch and .finally                                      
