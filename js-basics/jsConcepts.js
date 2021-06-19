@@ -1348,3 +1348,45 @@ console.log(arrrrray.__proto__.__proto__ === Object.prototype); // true
 console.log(arrrrray.__proto__.__proto__.__proto__); // null
 
 // Own reduce, filter and map method
+const arrayConst = [1, 2, 4, 5, 8, 3];
+
+// const mapFunc = arrayConst.map((item) => item * 2);
+Array.prototype.myMap = function (callback) {
+  const newArr = [];
+  for (let i = 0; i < this.length; i++) {
+    newArr[i] = callback(this[i]);
+  }
+  return newArr;
+};
+const mapFunc = arrayConst.myMap((item) => item * 2);
+console.log("myMap", mapFunc);
+
+// const filterFunc = arrayConst.filter((item) => item % 2 === 0);
+Array.prototype.myFilter = function (callback) {
+  const newArr = [];
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i])) {
+      newArr.push(this[i]);
+    }
+  }
+  return newArr;
+};
+const filterFunc = arrayConst.myFilter((item) => item % 2 === 0);
+console.log("myFilter", filterFunc);
+
+// const reduceFunc = arrayConst.reduce(
+//   (accumulator, currentValue) => accumulator + currentValue,
+//   0
+// );
+Array.prototype.myReduce = function (callback) {
+  let result = 0;
+  for (let i = 0; i < this.length; i++) {
+    callback((result = result + this[i]));
+  }
+  return result;
+};
+const reduceFunc = arrayConst.myReduce(
+  (accumulator, currentValue) => accumulator + currentValue,
+  0
+);
+console.log("myReduce", reduceFunc);
