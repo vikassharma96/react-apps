@@ -1390,3 +1390,16 @@ const reduceFunc = arrayConst.myReduce(
   0
 );
 console.log("myReduce", reduceFunc);
+
+// deepClone
+
+function deepClone(obj) {
+  if (!obj) return obj;
+  let value;
+  const newObj = Array.isArray(obj) ? [] : {};
+  for (const key in obj) {
+    value = obj[key];
+    newObj[i] = typeof value === "object" ? deepClone(value) : value;
+  }
+  return newObj;
+}
