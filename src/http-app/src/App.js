@@ -38,7 +38,7 @@ class App extends Component {
 
     try {
       // await axios.put(apiEndpoint + "/" + post.id, post);
-      await http.put(config.apiEndpoint + "/" + post.id, post);
+      await http.put(`${config.apiEndpoint}/${post.id}`, post);
     } catch (ex) {
       console.log("Reverting failed update for post:" + post.id);
       posts[index] = { ...originalPost };
