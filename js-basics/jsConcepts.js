@@ -1393,13 +1393,30 @@ console.log("myReduce", reduceFunc);
 
 // deepClone
 
+const obj = {
+  name: {
+    first_name: "Vikas",
+    last_name: "Sharma",
+  },
+  age: 27,
+};
+
 function deepClone(obj) {
   if (!obj) return obj;
   let value;
   const newObj = Array.isArray(obj) ? [] : {};
   for (const key in obj) {
     value = obj[key];
-    newObj[i] = typeof value === "object" ? deepClone(value) : value;
+    newObj[key] = typeof value === "object" ? deepClone(value) : value;
   }
   return newObj;
 }
+
+const flattenObject = (obj, prefix = '') =>
+  Object.keys(obj).reduce((acc, k) => {
+    const pre = prefix.length ? prefix + '.' : '';
+    if (typeof obj[k] === 'object') Object.assign(acc, flattenObject(obj[k], pre + k));
+    else acc[pre + k] = obj[k];
+    return acc;
+  }, {});
+console.log(flattenObject({ a: { b: { c: 1 } }, d: 1 }));
